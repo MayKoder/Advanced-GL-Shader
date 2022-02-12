@@ -7,6 +7,7 @@
 #include<time.h>
 #include<vector>
 #include<string>
+#include"MathGeoLib/include/Math/float2.h"
 
 namespace MaykMath 
 {
@@ -19,6 +20,8 @@ namespace MaykMath
 	void FindCentroid(float* A, float* B, float* C, float* r);
 
 	void GeneralDataSet(float* dest, float* src, size_t vecSize);
+
+	std::vector<float2> ScatterPoints(float radius, float2 sampleRegionSize);
 
 	template <class T>
 	void FixedVectorPushBack(std::vector<T>& vec, T& value) {

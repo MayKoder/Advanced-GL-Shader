@@ -12,6 +12,7 @@ class ModuleRenderer3D;
 class ModuleCamera3D;
 class M_Scene;
 class M_Sound;
+class M_Editor;
 
 class M_ResourceManager;
 
@@ -28,6 +29,7 @@ public:
 	M_Scene* moduleScene = nullptr;
 	M_Sound* moduleSound = nullptr;
 	M_ResourceManager* moduleResources = nullptr;
+	M_Editor* moduleEditor = nullptr;
 
 	std::vector<Module*> list_modules;
 

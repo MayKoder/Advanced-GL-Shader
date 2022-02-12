@@ -16,6 +16,7 @@
 #include"DEJsonSupport.h"
 #include"CO_Transform.h"
 #include"CO_Camera.h"
+#include "CO_MeshRenderer.h"
 
 #include"RE_Texture.h"
 #include"DETime.h"
@@ -46,6 +47,26 @@ bool M_Scene::Start()
 //	// TODO: Maybe this should be handled on the editor module? texture #include is stupid
 //	App->moduleEditor->editorIcons.LoadPreDefinedIcons();
 //#endif // !STANDALONE
+
+	GameObject* plane = CreateGameObject("Ground plane", root);
+	C_MeshRenderer* planeMesh = dynamic_cast<C_MeshRenderer*>(plane->AddComponent(Component::Type::MeshRenderer));
+
+	planeMesh->vertices = std::vector<float>(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(planeVertices[0]));
+	planeMesh->indices = std::vector<int>(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(planeIndices[0]));
+
+	planeMesh->_mesh.InitBuffers();
+	planeMesh->_mesh.Bind();
+
+
+	planeMesh->_mesh.CreateAndSetVBO(planeVertices, sizeof(planeVertices) / sizeof(float));
+
+	planeMesh->_mesh.LoadEBO(planeIndices, sizeof(planeIndices) / sizeof(int));
+
+
+	planeMesh->_mesh.SetVertexAttrib(0, 3, 6 * sizeof(float), 0 * sizeof(float), GL_FLOAT);
+	planeMesh->_mesh.SetVertexAttrib(1, 3, 6 * sizeof(float), 3 * sizeof(float), GL_FLOAT);
+
+	planeMesh->_mesh.UnBind();
 
 	return true;
 }

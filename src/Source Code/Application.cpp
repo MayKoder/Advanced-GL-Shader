@@ -9,10 +9,7 @@
 #include "MO_Camera3D.h"
 #include "MO_Scene.h"
 #include "MO_Sound.h"
-
-#ifndef STANDALONE
 #include "MO_Editor.h"
-#endif // !STANDALONE
 
 
 #include "MO_ResourceManager.h"
@@ -34,6 +31,7 @@ Application::Application() : quitApplicationState(false), fpsCap(60)
 	moduleCamera = new ModuleCamera3D(this);
 
 	moduleSound = new M_Sound(this);
+	moduleEditor = new M_Editor(this);
 
 	moduleResources = new M_ResourceManager(this);
 
@@ -50,6 +48,7 @@ Application::Application() : quitApplicationState(false), fpsCap(60)
 	AddModule(moduleCamera);
 	AddModule(moduleResources);
 	AddModule(moduleRenderer3D);
+	AddModule(moduleEditor);
 }
 
 

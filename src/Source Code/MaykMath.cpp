@@ -43,28 +43,16 @@ void MaykMath::GeneralDataSet(float* dest, float* src, size_t vecSize)
 
 }
 
-//template <class T>
-//void MaykMath::FixedVectorPushBack(std::vector<T>& vec, T& value)
-//{
-//	//if (vec.size() == vec.capacity())
-//	//{
-//	//	//Vector is full
-//	//	//delete vector's oldest element
-//	//	//Move all elements 1 position back
-//	//	for (unsigned int i = 0; i < vec.size(); i++)
-//	//	{
-//	//		if (i + 1 < vec.size())
-//	//		{
-//	//			float iCopy = vec[i + 1];
-//	//			vec[i] = iCopy;
-//	//		}
-//	//	}
-//	//	vec[vec.capacity() - 1] = value;
-//	//	//Pushback new element
-//	//}
-//	//else
-//	//{
-//	//	//Vector is not full
-//	//	vec.push_back(value);
-//	//}
-//}
+std::vector<float2> MaykMath::ScatterPoints(float radius, float2 sampleRegionSize)
+{
+
+
+
+
+
+
+
+
+
+	return std::vector<float2>();
+}

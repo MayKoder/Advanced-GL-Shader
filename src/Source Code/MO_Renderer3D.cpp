@@ -35,7 +35,7 @@
 
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled), str_CAPS(""),
-vsync(true), wireframe(false), directLight(nullptr), activeRenderCamera(nullptr)
+vsync(true), wireframe(false), directLight(nullptr), activeRenderCamera(nullptr), defaultShader(nullptr)
 {
 	GetCAPS(str_CAPS);
 	/*depth =*/ cull = lightng = color_material = texture_2d = true;
@@ -234,7 +234,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		{
 			//float distance = App->moduleCamera->editorCamera.camFrustrum.pos.DistanceSq(renderQueue[i]->globalOBB.pos);
 			//renderQueueMap.emplace(distance, renderQueue[i]);
-			renderQueue[i]->RenderMesh();
+			renderQueue[i]->RenderMesh(false, defaultShader);
 		}
 
 		//(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -254,14 +254,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	//glClear(GL_DEPTH_BUFFER_BIT);
 	//glEnable(GL_DEPTH_TEST);
 
-	//TODO: This is bad
-	App->moduleInput->SetMouseLayer(MOUSE_LAYER::MOVE_CAMERA);
-
 
 	//glClear(GL_DEPTH_BUFFER_BIT);
 	//App->moduleCamera->editorCamera.msaaFBO.UnbindFrameBuffer();
 	//App->moduleCamera->editorCamera.msaaFBO.ResolveToScreen();
 	App->moduleCamera->editorCamera.EndDraw();
+	App->moduleEditor->Draw();
 	
 	//TEMPORAL: Delete here so you can call mouse picking from scene window, should not be here in the future
 	ClearAllRenderData();

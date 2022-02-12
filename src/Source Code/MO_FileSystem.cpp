@@ -46,6 +46,7 @@ bool M_FileSystem::Start()
 	//TODO: Move to resource manager
 	App->moduleScene->defaultMaterial = (ResourceMaterial*)App->moduleResources->RequestFromAssets(std::string("assets/Materials/default.mat"));
 	App->moduleRenderer3D->skybox.shaderRes = dynamic_cast<ResourceShader*>(App->moduleResources->RequestResource("assets/Shaders/cubeMap.glsl"));
+	App->moduleRenderer3D->defaultShader = dynamic_cast<ResourceShader*>(App->moduleResources->RequestResource("assets/Shaders/default.glsl"));
 
 	return true;
 }

@@ -3,7 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
-//#include "Window.h"
+#include "Window.h"
 
 #define STYLES_PATH "Settings/styles.json"
 #define MAX_STY_INPUT 15
@@ -25,28 +25,11 @@ public:
 	bool Start() override;
 
 	void Draw();
-	void DrawMenuBar();
-	//void DrawTopBar();
-	//void CreateDockSpace();
 
 	bool CleanUp() override;
 
-	void DrawCreateMenu();
+	Window settingsWindow;
 
-	void SaveStyle(const char* styleName);
-	void ChangeStyleTo(const char* styleName);
-	void DeleteStyle(const char* styleName);
-	void UpdateLoadedStylesVector(std::vector<std::string>* _styles);
-
-private:
-	std::vector<std::string> styles;
-
-	//WARNING TODO: This is bad find a better way
-	char styleInput[MAX_STY_INPUT] = "";
-
-	bool displayWindow;
-
-	float viewportCorSize;
 };
 
 #endif

@@ -20,7 +20,7 @@
 #include"MathGeoLib/include/Geometry/Frustum.h"
 #include"MathGeoLib/include/Geometry/Plane.h"
 
-C_MeshRenderer::C_MeshRenderer(GameObject* _gm) : Component(_gm), _mesh(nullptr),
+C_MeshRenderer::C_MeshRenderer(GameObject* _gm) : Component(_gm),
 faceNormals(false), vertexNormals(false), showAABB(false), showOBB(false)
 {
 	name = "Mesh Renderer";
@@ -32,12 +32,7 @@ C_MeshRenderer::~C_MeshRenderer()
 	indices.clear();
 	vertices.clear();
 
-	if (_mesh != nullptr) 
-	{
-		//EngineExternal->moduleResources->UnloadResource(_mesh->GetUID());
-		delete _mesh;
-		_mesh = nullptr;
-	}
+	_mesh.UnloadBuffers();
 }
 
 void C_MeshRenderer::Update()
@@ -74,7 +69,7 @@ void C_MeshRenderer::RenderMesh(bool rTex, ResourceShader* shader)
 	EngineExternal->moduleRenderer3D->activeRenderCamera->PushCameraShaderVars(shader->shaderProgramID);
 
 	GLint modelLoc = glGetUniformLocation(shader->shaderProgramID, "position");
-	glUniform3f(modelLoc, this->gameObject->transform->position.x, this->gameObject->transform->position.y, this->gameObject->transform->position.z);
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, this->gameObject->transform->GetGlobalTransposed());
 
 	modelLoc = glGetUniformLocation(shader->shaderProgramID, "color");
 	glUniform4f(modelLoc, 1, 1, 1, 1);
@@ -109,7 +104,7 @@ void C_MeshRenderer::RenderMesh(bool rTex, ResourceShader* shader)
 
 void C_MeshRenderer::OGL_GPU_Render()
 {
-	_mesh->RenderAsIndices(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT);
+	_mesh.RenderAsIndices(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT);
 }
 
 #ifndef STANDALONE
@@ -119,12 +114,9 @@ bool C_MeshRenderer::OnEditor()
 	{
 		ImGui::Separator();
 
-		if (_mesh != nullptr) 
-		{
 			//ImGui::Image((ImTextureID)_mesh->textureID, ImVec2(128, 128));
 			ImGui::Text("Vertices: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "%i", this->vertices.size() / 3);
 			ImGui::Text("Indices: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "%i", this->indices.size());
-		}
 
 		ImGui::Checkbox("Vertex Normals", &vertexNormals);
 		ImGui::SameLine();

@@ -31,7 +31,7 @@ public:
 	std::vector<float> vertices;
 	std::vector<int> indices;
 
-	GL_Object* _mesh;
+	GL_Object _mesh = GL_Object(GL_Object::RENDER_TYPE::RE_INDICES);
 private:
 	float3 alternColor;
 };

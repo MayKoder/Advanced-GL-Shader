@@ -11,6 +11,20 @@ typedef unsigned int uint;
 struct SerializedField;
 class ResourceMaterial;
 
+static const float planeVertices[] =
+{
+	//Vertex                //Color
+	-0.5f, 0.0f, -0.5f,    0.0f, 1.0f, 0.0f,
+	-0.5f, 0.0f, 0.5f,    0.0f, 1.0f, 0.0f,
+	 0.5f, 0.0f, 0.5f,    0.0f, 1.0f, 0.0f,
+	 0.5f, 0.0f, -0.5f,    0.0f, 1.0f, 0.0f,
+};
+
+static const int planeIndices[] =
+{
+	0, 1, 2, 2, 3, 0,
+};
+
 class M_Scene : public Module
 {
 

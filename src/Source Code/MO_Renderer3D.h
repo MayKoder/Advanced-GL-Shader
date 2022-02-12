@@ -9,8 +9,6 @@
 
 #include"DE_Cubemap.h"
 
-//#include"MM_ProceduralMeshGenerator.h"
-
 #include<map>
 
 class C_MeshRenderer;
@@ -25,12 +23,6 @@ typedef unsigned char	GLubyte;	/* 1-byte unsigned */
 
 #define SQUARE_TEXTURE_W 256
 #define SQUARE_TEXTURE_H 256
-
-//struct LineRender
-//{
-//	LineRender(float3& _a, float3& _b, float3& _color) : a(_a), b(_b), color(_color) {}
-//	float3 a, b, color;
-//};
 
 class ModuleRenderer3D : public Module
 {
@@ -82,6 +74,7 @@ public:
 	DE_Cubemap skybox;
 	C_DirectionalLight* directLight;
 
+	ResourceShader* defaultShader;
 
 private:
 	//std::vector<LineRender> lines;
