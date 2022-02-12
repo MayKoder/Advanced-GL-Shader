@@ -50,6 +50,7 @@ bool M_Scene::Start()
 
 	GameObject* plane = CreateGameObject("Ground plane", root);
 	C_MeshRenderer* planeMesh = dynamic_cast<C_MeshRenderer*>(plane->AddComponent(Component::Type::MeshRenderer));
+	plane->transform->SetTransformMatrix(float3::zero, Quat::identity, float3(1.5f, 1.0f, 1.0f));
 
 	planeMesh->vertices = std::vector<float>(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(planeVertices[0]));
 	planeMesh->indices = std::vector<int>(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(planeIndices[0]));

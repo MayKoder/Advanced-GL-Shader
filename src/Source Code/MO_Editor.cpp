@@ -75,7 +75,6 @@ bool M_Editor::Init()
 
 	io.MouseDrawCursor = false;
 	io.IniFilename = "Settings/imgui.ini";
-	io.IniFilename = NULL;
 
 	return true;
 }

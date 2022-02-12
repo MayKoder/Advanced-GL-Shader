@@ -75,6 +75,7 @@ public:
 	C_DirectionalLight* directLight;
 
 	ResourceShader* defaultShader;
+	std::vector<float2> scatterPoints;
 
 private:
 	//std::vector<LineRender> lines;

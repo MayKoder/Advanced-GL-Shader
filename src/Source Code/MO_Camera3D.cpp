@@ -14,7 +14,7 @@
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled), mouseSensitivity(0.50f), cameraSpeed(40.f), cameraMovement(0.f, 0.f, 0.f)
 {
 	editorCamera.camFrustrum.farPlaneDistance = 5000;
-	editorCamera.camFrustrum.pos = float3(0.0f, 1.0f, -2.0f);
+	editorCamera.camFrustrum.pos = float3(0.0f, 0.3f, -1.0f);
 	App->moduleRenderer3D->activeRenderCamera = &editorCamera;
 	Reference = float3(0.0f, 0.0f, 0.0f);
 }
@@ -28,7 +28,7 @@ bool ModuleCamera3D::Start()
 	LOG(  "Setting up the camera");
 	bool ret = true;
 
-	editorCamera.LookAt(float3(0.f, 0.f, 1.f));
+	editorCamera.LookAt(float3(0.f, 0.f, 0.8f));
 
 	//LookAt(float3(0.f, 1.f, 0.f));
 

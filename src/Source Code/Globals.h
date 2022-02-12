@@ -38,6 +38,7 @@ void log(const char file[], int line, const char* format, ...);
 #define RADTODEG 57.295779513082320876f
 #define HAVE_M_PI
 #define PI 3.14159265358979323846
+#define SQRT_OF_TWO 1.41421356237
 
 #define MIN(a,b) ((a)<(b)) ? (a) : (b)
 #define MAX(a,b) ((a)>(b)) ? (a) : (b)

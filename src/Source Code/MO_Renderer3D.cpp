@@ -196,6 +196,7 @@ bool ModuleRenderer3D::Init()
 	skybox.CreateGLData();
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
+	scatterPoints = MaykMath::ScatterPoints(0.5f, float2(60.0f, 30.0f), 30);
 
 	//plane.GenerateData();
 
@@ -225,6 +226,19 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	//
 	App->moduleCamera->editorCamera.StartDraw();
 	//
+
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glPointSize(5.0f);
+	glBegin(GL_POINTS);
+
+	for (size_t i = 0; i < scatterPoints.size(); i++)
+	{
+		glVertex3f((scatterPoints[i].x / (40.0f)) - 0.75f, 0.0f, (scatterPoints[i].y / 30.0f)-0.5f);
+	}
+
+	glEnd();
+	glPointSize(1.0f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 
 	//Uint32 start = SDL_GetTicks();
 	//TODO: This should not be here

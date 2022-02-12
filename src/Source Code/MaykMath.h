@@ -21,7 +21,8 @@ namespace MaykMath
 
 	void GeneralDataSet(float* dest, float* src, size_t vecSize);
 
-	std::vector<float2> ScatterPoints(float radius, float2 sampleRegionSize);
+	std::vector<float2> ScatterPoints(float radius, float2 sampleRegionSize, int numSamplesBeforeRejection = 30);
+	bool IsScatterValidPoint(float2& candidate, float2& sampleRegionSize, float cellSize, float radius, std::vector<float2>& points, int* grid);
 
 	template <class T>
 	void FixedVectorPushBack(std::vector<T>& vec, T& value) {

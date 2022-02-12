@@ -44,7 +44,7 @@ void M_ResourceManager::OnGUI()
 		ImGui::TextColored(ImVec4(1.f, 1.f, 0.f, 1.f), "%i resources loaded", resources.size());
 		for (auto it = resources.begin(); it != resources.end(); ++it)
 		{
-			ImGui::Text("%i: %i", (*it).second->GetReferenceCount(), (*it).second->GetUID());
+			ImGui::Text("%i: %s", (*it).second->GetReferenceCount(), (*it).second->GetUID().c_str());
 		}
 	}
 }
