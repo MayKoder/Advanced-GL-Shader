@@ -3,12 +3,11 @@
 #include"DEResource.h"
 #include<vector>
 typedef unsigned int GLuint;
-class ResourceMaterial;
-
 enum class ShaderType
 {
 	SH_Vertex,
 	SH_Frag,
+	SH_Geometry,
 	SH_Max
 };
 
@@ -33,6 +32,4 @@ public:
 	GLuint shaderObjects[static_cast<int>(ShaderType::SH_Max)];
 
 	GLuint shaderProgramID;
-
-	std::vector<ResourceMaterial*> references;
 };

@@ -3,7 +3,6 @@
 
 #include "CO_Transform.h"
 #include "CO_MeshRenderer.h"
-#include "CO_Material.h"
 #include "CO_Camera.h"
 #include "CO_DirectionalLight.h"
 
@@ -95,13 +94,6 @@ Component* GameObject::AddComponent(Component::Type _type, const char* params)
 	case Component::Type::MeshRenderer:
 		ret = new C_MeshRenderer(this);
 		break;
-	case Component::Type::Material:
-		ret = new C_Material(this);
-		break;
-	//case Component::Type::Script:
-	//	assert(params != nullptr, "Script without name can't be created");
-	//	ret = new C_Script(this, params);
-	//	break;
 	case Component::Type::Camera:
 		ret = new C_Camera(this);
 		EngineExternal->moduleScene->SetGameCamera(dynamic_cast<C_Camera*>(ret));

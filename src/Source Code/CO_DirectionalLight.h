@@ -5,7 +5,6 @@
 #include"MathGeoLib/include/Math/float4x4.h"
 
 class ResourceShader;
-class ResourceMaterial;
 
 class C_DirectionalLight : public Component
 {
@@ -25,7 +24,7 @@ public:
 	void LoadData(DEConfig& nObj) override;
 
 	void StartPass();
-	void PushLightUniforms(ResourceMaterial* material);
+	void PushLightUniforms(ResourceShader* material);
 	void EndPass();
 
 	Frustum orthoFrustum;

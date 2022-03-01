@@ -99,9 +99,6 @@
     <ClInclude Include="Source Code\Timer.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Source Code\Color.h">
-      <Filter>Sources\Containers</Filter>
-    </ClInclude>
     <ClInclude Include="Source Code\glmath.h">
       <Filter>Sources\Containers</Filter>
     </ClInclude>
@@ -384,9 +381,6 @@
     <ClInclude Include="Source Code\CO_Camera.h">
       <Filter>Sources\Components\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Source Code\CO_Material.h">
-      <Filter>Sources\Components\Derived</Filter>
-    </ClInclude>
     <ClInclude Include="Source Code\CO_MeshRenderer.h">
       <Filter>Sources\Components\Derived</Filter>
     </ClInclude>
@@ -413,12 +407,6 @@
     </ClInclude>
     <ClInclude Include="Source Code\DE_Cubemap.h">
       <Filter>Sources\Containers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source Code\RE_Material.h">
-      <Filter>Sources\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source Code\IM_MaterialImporter.h">
-      <Filter>Sources\Tools\Importers</Filter>
     </ClInclude>
     <ClInclude Include="Source Code\CO_DirectionalLight.h">
       <Filter>Sources\Components\Derived</Filter>
@@ -466,9 +454,6 @@
     </ClCompile>
     <ClCompile Include="Source Code\Timer.cpp">
       <Filter>Sources\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Code\Color.cpp">
-      <Filter>Sources\Containers</Filter>
     </ClCompile>
     <ClCompile Include="Source Code\glmath.cpp">
       <Filter>Sources\Containers</Filter>
@@ -632,9 +617,6 @@
     <ClCompile Include="Source Code\CO_Camera.cpp">
       <Filter>Sources\Components\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Source Code\CO_Material.cpp">
-      <Filter>Sources\Components\Derived</Filter>
-    </ClCompile>
     <ClCompile Include="Source Code\CO_MeshRenderer.cpp">
       <Filter>Sources\Components\Derived</Filter>
     </ClCompile>
@@ -661,12 +643,6 @@
     </ClCompile>
     <ClCompile Include="Source Code\DE_Cubemap.cpp">
       <Filter>Sources\Containers</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Code\RE_Material.cpp">
-      <Filter>Sources\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Code\IM_MaterialImporter.cpp">
-      <Filter>Sources\Tools\Importers</Filter>
     </ClCompile>
     <ClCompile Include="Source Code\CO_DirectionalLight.cpp">
       <Filter>Sources\Components\Derived</Filter>

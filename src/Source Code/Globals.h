@@ -42,6 +42,7 @@ void log(const char file[], int line, const char* format, ...);
 
 #define MIN(a,b) ((a)<(b)) ? (a) : (b)
 #define MAX(a,b) ((a)>(b)) ? (a) : (b)
+#define CLAMP(lower, upper, n) (n <= lower ? lower : n >= upper ? upper : n)
 
 typedef unsigned int uint;
 typedef unsigned __int64 uint64;

@@ -15,7 +15,6 @@
 #include "DevIL\include\ilu.h"
 #include "DevIL\include\ilut.h"
 #include"RE_Shader.h"
-#include"RE_Material.h"
 
 
 M_FileSystem::M_FileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -44,7 +43,6 @@ bool M_FileSystem::Start()
 {
 
 	//TODO: Move to resource manager
-	App->moduleScene->defaultMaterial = (ResourceMaterial*)App->moduleResources->RequestFromAssets(std::string("assets/Materials/default.mat"));
 	App->moduleRenderer3D->skybox.shaderRes = dynamic_cast<ResourceShader*>(App->moduleResources->RequestResource("assets/Shaders/cubeMap.glsl"));
 	App->moduleRenderer3D->defaultShader = dynamic_cast<ResourceShader*>(App->moduleResources->RequestResource("assets/Shaders/default.glsl"));
 

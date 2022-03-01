@@ -7,8 +7,6 @@
 #include"MathGeoLib/include/Geometry/Plane.h"
 #include"MathGeoLib/include/Geometry/AABB.h"
 
-#include"RE_Material.h"
-
 #include"MO_Renderer3D.h"
 #include"MO_Scene.h"
 

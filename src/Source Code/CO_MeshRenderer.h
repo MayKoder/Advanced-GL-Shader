@@ -5,6 +5,7 @@
 #include"MathGeoLib/include/Geometry/OBB.h"
 
 #include"GL_Object.h"
+class ResourceShader;
 
 class C_MeshRenderer : public Component
 {
@@ -31,7 +32,11 @@ public:
 	std::vector<float> vertices;
 	std::vector<int> indices;
 
+	ResourceShader* resShader;
+
 	GL_Object _mesh = GL_Object(GL_Object::RENDER_TYPE::RE_INDICES);
+	GLenum primitiveType;
+
 private:
 	float3 alternColor;
 };

@@ -9,7 +9,6 @@
 #include"MO_ResourceManager.h"
 #include"RE_Shader.h"
 
-#include"RE_Material.h"
 #include"RE_Shader.h"
 #include"MO_Window.h"
 
@@ -151,24 +150,24 @@ void C_DirectionalLight::StartPass()
 	depthShader->Bind();
 }
 
-void C_DirectionalLight::PushLightUniforms(ResourceMaterial* material)
+void C_DirectionalLight::PushLightUniforms(ResourceShader* shader)
 {
-	GLint modelLoc = glGetUniformLocation(material->shader->shaderProgramID, "lightSpaceMatrix");
+	GLint modelLoc = glGetUniformLocation(shader->shaderProgramID, "lightSpaceMatrix");
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, this->spaceMatrixOpenGL.ptr());
 
-	modelLoc = glGetUniformLocation(material->shader->shaderProgramID, "lightPos");
+	modelLoc = glGetUniformLocation(shader->shaderProgramID, "lightPos");
 	glUniform3fv(modelLoc, 1, &gameObject->transform->position.x);
 
-	modelLoc = glGetUniformLocation(material->shader->shaderProgramID, "viewPos");
+	modelLoc = glGetUniformLocation(shader->shaderProgramID, "viewPos");
 	glUniform3fv(modelLoc, 1, EngineExternal->moduleRenderer3D->activeRenderCamera->GetPosition().ptr());
 
-	modelLoc = glGetUniformLocation(material->shader->shaderProgramID, "lightColor");
+	modelLoc = glGetUniformLocation(shader->shaderProgramID, "lightColor");
 	glUniform3fv(modelLoc, 1, &lightColor.x);
 
 	//glUniform1i(glGetUniformLocation(material->shader->shaderProgramID, shadowMap), used_textures);
 
 	glActiveTexture(GL_TEXTURE5);
-	modelLoc = glGetUniformLocation(material->shader->shaderProgramID, "shadowMap");
+	modelLoc = glGetUniformLocation(shader->shaderProgramID, "shadowMap");
 	glUniform1i(modelLoc, 5);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 }

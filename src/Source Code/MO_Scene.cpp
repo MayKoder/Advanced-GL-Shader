@@ -20,10 +20,8 @@
 
 #include"RE_Texture.h"
 #include"DETime.h"
-#include"RE_Material.h"
 
-M_Scene::M_Scene(Application* app, bool start_enabled) : Module(app, start_enabled), root(nullptr),
-defaultMaterial(nullptr)
+M_Scene::M_Scene(Application* app, bool start_enabled) : Module(app, start_enabled), root(nullptr)
 {
 }
 
@@ -40,13 +38,6 @@ bool M_Scene::Init()
 
 bool M_Scene::Start()
 {
-
-//#ifndef STANDALONE
-//	//TODO IMPORTANT: This is why we should save icons .meta, or we could generate them every time
-//	//But this will introduce some randomized problems with ID duplications
-//	// TODO: Maybe this should be handled on the editor module? texture #include is stupid
-//	App->moduleEditor->editorIcons.LoadPreDefinedIcons();
-//#endif // !STANDALONE
 
 	GameObject* plane = CreateGameObject("Ground plane", root);
 	C_MeshRenderer* planeMesh = dynamic_cast<C_MeshRenderer*>(plane->AddComponent(Component::Type::MeshRenderer));
@@ -173,9 +164,6 @@ update_status M_Scene::Update(float dt)
 
 bool M_Scene::CleanUp()
 {
-	//This will delete all the gameObjects
-	if (defaultMaterial != nullptr)
-		EngineExternal->moduleResources->UnloadResource(defaultMaterial->GetUID());
 
 	delete root;
 	return true;

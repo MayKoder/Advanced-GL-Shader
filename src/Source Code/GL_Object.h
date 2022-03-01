@@ -5,7 +5,6 @@
 #include<cassert>
 #include <MathGeoLib/include/Math/float3.h>
 
-class ResourceShader;
 typedef unsigned int uint;
 
 class GL_Object
@@ -90,10 +89,15 @@ public:
 		return VAO;
 	}
 
+	inline void SetType(RENDER_TYPE _type) {
+		type = _type;
+	}
+	inline RENDER_TYPE GetType() {
+		return type;
+	}
+
 private:
 
-	//resource shader
-	ResourceShader* resShader;
 	//render type enum (array, indices, instancing)
 	RENDER_TYPE type;
 

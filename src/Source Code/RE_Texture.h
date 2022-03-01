@@ -2,7 +2,6 @@
 
 #include"DEResource.h"
 #include<string>
-#include"Color.h"
 //#include"DERect.h"
 
 typedef unsigned int GLuint;
@@ -23,8 +22,6 @@ public:
 	int tHeight;
 
 	GLuint textureID;
-	Color color;
-
 };
 
 

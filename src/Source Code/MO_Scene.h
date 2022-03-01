@@ -8,8 +8,6 @@
 class GameObject;
 class C_Camera;
 typedef unsigned int uint;
-struct SerializedField;
-class ResourceMaterial;
 
 static const float planeVertices[] =
 {
@@ -61,9 +59,6 @@ public:
 
 	GameObject* root;
 	std::vector<GameObject*> destroyList;
-	//std::multimap<uint, SerializedField*> referenceMap;
-
-	ResourceMaterial* defaultMaterial;
 
 private:
 	void Destroy(GameObject* gm);

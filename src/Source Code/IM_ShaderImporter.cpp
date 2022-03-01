@@ -120,7 +120,7 @@ bool ShaderImporter::CheckForErrors(std::string& glslBuffer, TempShader& vertexS
 GLuint ShaderImporter::Compile(const char* fileBuffer, ShaderType type, const GLint size)
 {
 	GLuint compileShader = 0;
-	compileShader = glCreateShader((type == ShaderType::SH_Vertex) ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+	compileShader = glCreateShader(GetTypeMacro(type));
 	glShaderSource(compileShader, 1, &fileBuffer, &size);
 	glCompileShader(compileShader);
 
@@ -162,6 +162,9 @@ int ShaderImporter::GetTypeMacro(ShaderType type)
 		break;
 	case ShaderType::SH_Frag:
 		ret = GL_FRAGMENT_SHADER;
+		break;
+	case ShaderType::SH_Geometry:
+		ret = GL_GEOMETRY_SHADER;
 		break;
 	case ShaderType::SH_Max:
 		ret = 0;

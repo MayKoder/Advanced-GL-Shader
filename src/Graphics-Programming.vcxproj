@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}</ProjectGuid>
     <RootNamespace>SDLGame</RootNamespace>
-    <ProjectName>Diamond Engine</ProjectName>
+    <ProjectName>Graphics-Programming</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -177,12 +177,10 @@
   <ItemGroup>
     <ClInclude Include="Source Code\alhelpers.h" />
     <ClInclude Include="Source Code\Application.h" />
-    <ClInclude Include="Source Code\Color.h" />
     <ClInclude Include="Source Code\Component.h" />
     <ClInclude Include="Source Code\CO_Camera.h" />
     <ClInclude Include="Source Code\CO_DirectionalLight.h" />
     <ClInclude Include="Source Code\CO_MeshRenderer.h" />
-    <ClInclude Include="Source Code\CO_Material.h" />
     <ClInclude Include="Source Code\CO_Transform.h" />
     <ClInclude Include="Source Code\DEJsonSupport.h" />
     <ClInclude Include="Source Code\DETime.h" />
@@ -272,13 +270,11 @@
     <ClInclude Include="Source Code\GameObject.h" />
     <ClInclude Include="Source Code\glmath.h" />
     <ClInclude Include="Source Code\Globals.h" />
-    <ClInclude Include="Source Code\IM_MaterialImporter.h" />
     <ClInclude Include="Source Code\IM_ShaderImporter.h" />
     <ClInclude Include="Source Code\IM_TextureImporter.h" />
     <ClInclude Include="Source Code\LineRenderer.h" />
     <ClInclude Include="Source Code\MaykMath.h" />
     <ClInclude Include="Source Code\MO_Sound.h" />
-    <ClInclude Include="Source Code\RE_Material.h" />
     <ClInclude Include="Source Code\MMGui.h" />
     <ClInclude Include="Source Code\Module.h" />
     <ClInclude Include="Source Code\MO_Camera3D.h" />
@@ -300,11 +296,9 @@
   <ItemGroup>
     <ClCompile Include="Source Code\alhelpers.c" />
     <ClCompile Include="Source Code\Application.cpp" />
-    <ClCompile Include="Source Code\Color.cpp" />
     <ClCompile Include="Source Code\Component.cpp" />
     <ClCompile Include="Source Code\CO_Camera.cpp" />
     <ClCompile Include="Source Code\CO_DirectionalLight.cpp" />
-    <ClCompile Include="Source Code\CO_Material.cpp" />
     <ClCompile Include="Source Code\CO_MeshRenderer.cpp" />
     <ClCompile Include="Source Code\CO_Transform.cpp" />
     <ClCompile Include="Source Code\DEJsonSupport.cpp" />
@@ -359,13 +353,11 @@
     <ClCompile Include="Source Code\IM_FileSystem.cpp" />
     <ClCompile Include="Source Code\GameObject.cpp" />
     <ClCompile Include="Source Code\glmath.cpp" />
-    <ClCompile Include="Source Code\IM_MaterialImporter.cpp" />
     <ClCompile Include="Source Code\IM_ShaderImporter.cpp" />
     <ClCompile Include="Source Code\IM_TextureImporter.cpp" />
     <ClCompile Include="Source Code\LineRenderer.cpp" />
     <ClCompile Include="Source Code\MMGui.cpp" />
     <ClCompile Include="Source Code\MO_Sound.cpp" />
-    <ClCompile Include="Source Code\RE_Material.cpp" />
     <ClCompile Include="Source Code\MO_FileSystem.cpp" />
     <ClCompile Include="Source Code\MO_ResourceManager.cpp" />
     <ClCompile Include="Source Code\MO_Scene.cpp" />

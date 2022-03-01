@@ -11,12 +11,15 @@
 #include"CO_Transform.h"
 #include"MathGeoLib/include/Math/float4.h"
 
-ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled), mouseSensitivity(0.50f), cameraSpeed(40.f), cameraMovement(0.f, 0.f, 0.f)
+ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled), mouseSensitivity(0.50f), cameraSpeed(3.f)
 {
+	editorCamera.camFrustrum.nearPlaneDistance = 0.00001f;
 	editorCamera.camFrustrum.farPlaneDistance = 5000;
 	editorCamera.camFrustrum.pos = float3(0.0f, 0.3f, -1.0f);
 	App->moduleRenderer3D->activeRenderCamera = &editorCamera;
-	Reference = float3(0.0f, 0.0f, 0.0f);
+
+	forwardLimits = float2(0.1, 1.3);
+	currentZoom = (editorCamera.camFrustrum.pos - float3(0.0)).LengthSq();
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -28,7 +31,7 @@ bool ModuleCamera3D::Start()
 	LOG(  "Setting up the camera");
 	bool ret = true;
 
-	editorCamera.LookAt(float3(0.f, 0.f, 0.8f));
+	editorCamera.LookAt(float3(0.f, 0.f, 0.0f));
 
 	//LookAt(float3(0.f, 1.f, 0.f));
 
@@ -58,94 +61,47 @@ void ModuleCamera3D::OnGUI()
 update_status ModuleCamera3D::Update(float dt)
 {
 
-	//if (App->moduleInput->GetMouseLayer() == MOUSE_LAYER::MOVE_CAMERA) {
-	//	ProcessSceneKeyboard();
-	//}
+	ProcessSceneKeyboard();
+	editorCamera.LookAt(float3(0.f, 0.f, 0.0f));
 
-	////ASK: This should be here to move camera with code but idk its expensive
-	//Reference += cameraMovement;
-	//editorCamera.Move(cameraMovement);
-	//cameraMovement = float3::zero;
 
 	return UPDATE_CONTINUE;
 }
 
 void ModuleCamera3D::ProcessSceneKeyboard()
 {
-	cameraMovement.Set(0.f, 0.f, 0.f);
 	const float dt = App->GetDT();
 
 	float speed = cameraSpeed * dt;
-	if (App->moduleInput->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed *= 2.f;
-
-	//if (App->moduleInput->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) cameraMovement.y += speed;
-	//if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
-
-	if (App->moduleInput->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) cameraMovement += editorCamera.camFrustrum.front * speed;
-	if (App->moduleInput->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) cameraMovement -= editorCamera.camFrustrum.front * speed;
-
-
-	if (App->moduleInput->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) cameraMovement -= editorCamera.camFrustrum.WorldRight() * speed;
-	if (App->moduleInput->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) cameraMovement += editorCamera.camFrustrum.WorldRight() * speed;
-
-	if (App->moduleInput->GetMouseZ() != 0)
-	{
-		cameraMovement += editorCamera.camFrustrum.front * App->moduleInput->GetMouseZ() * (editorCamera.camFrustrum.pos - float3::zero).Normalized().LengthSq();
-	}
-
-	// Mouse motion ----------------
 	
-	//BUG: Will lock the mouse forever if the user docks two camera windows together lol
-	//if (App->moduleInput->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN /*|| App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN*/)
-	//{
-	//	SDL_SetRelativeMouseMode(SDL_TRUE);
-	//	SDL_WarpMouseInWindow(App->moduleWindow->window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	//if (App->moduleInput->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
+
+	//	float newZoom = CLAMP(forwardLimits.x, forwardLimits.y, currentZoom - speed);
+	//	editorCamera.camFrustrum.pos = (-editorCamera.camFrustrum.front) * newZoom;
+	//	currentZoom = newZoom;
 	//}
-	//else if (App->moduleInput->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_UP /*|| App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP*/)
-	//{
-	//	SDL_SetRelativeMouseMode(SDL_FALSE);
-	//	SDL_WarpMouseInWindow(App->moduleWindow->window, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	//if (App->moduleInput->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) {
+	//	float newZoom = CLAMP(forwardLimits.x, forwardLimits.y, currentZoom + speed);
+	//	editorCamera.camFrustrum.pos = (-editorCamera.camFrustrum.front) * newZoom;
+	//	currentZoom = newZoom;
 	//}
 
-	//ASK: Is this really the best way to rotate the camera? Maybe i should use a matrix
-	//TODO: Camera rotation should not be affected by the program framerate
-	if (App->moduleInput->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
-	{
-		FreeRotation(dt);
-	}
 
-#ifndef STANDALONE
-	//Rotate around 0,0,0
-	//ASK: Should i also include Right alt?
-	//Maybe we could use quaternions?
-	if (/*App->moduleInput->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && */App->moduleInput->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) 
+	if (App->moduleInput->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) 
 	{
-		/*float3 target(0.f, 0.f, 0.f);*/
-		//if (App->moduleEditor->GetSelectedGO() != nullptr)
-		//{
-		//	float3 maTogl = App->moduleEditor->GetSelectedGO()->transform->globalTransform.TranslatePart();
-		//	target.Set(maTogl.x, maTogl.y, maTogl.z);
-		//}
-		OrbitalRotation(Reference, dt);
+		Quat direction;
+
+		float DeltaX = speed;
+		editorCamera.camFrustrum.SetWorldMatrix(editorCamera.camFrustrum.WorldMatrix().SetRotatePartY(DeltaX));
+		editorCamera.camFrustrum.pos = (-editorCamera.camFrustrum.front) * currentZoom;
+
+		//float3 newPosition = float3(0.0f) + (editorCamera.camFrustrum.front * -distance);
+		//editorCamera.camFrustrum.pos = newPosition;
+
+		//editorCamera.LookAt(float3(0.0f));
 	}
 
 
-	if (App->moduleInput->GetKey(SDL_SCANCODE_F) == KEY_DOWN) 
-	{
-		float3 target(0.f, 0.f, 0.f);
-		//if (App->moduleEditor->GetSelectedGO() != nullptr) 
-		//{
-		//	float3 maTogl = App->moduleEditor->GetSelectedGO()->transform->globalTransform.TranslatePart();
-		//	target.Set(maTogl.x, maTogl.y, maTogl.z);
-		//}
-		FocusCamera(target, 10.f);
-	}
-#endif // !STANDALONE
-
-
-	if (App->moduleInput->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
-		PanCamera(dt);
 }
 
 ////Could be a good idea to use quaternions? Would it be faster?
@@ -171,6 +127,7 @@ void ModuleCamera3D::OrbitalRotation(float3 center, float dt)
 		Y.SetFromAxisAngle(float3(1, 0, 0), DeltaY * DEGTORAD);
 
 		direction = direction * Y;
+		LOG("%F, %F, %F, %F", Y.x, Y.y, Y.z, Y.w);
 	}
 
 	if (dx != 0)
@@ -183,23 +140,14 @@ void ModuleCamera3D::OrbitalRotation(float3 center, float dt)
 		direction = X * direction;
 	}
 
-	//if ((center + (editorCamera.camFrustrum.front * -distance)).y >= 0.25) 
-	//{
+	float4x4 mat = editorCamera.camFrustrum.WorldMatrix();
+	mat.SetRotatePart(direction.Normalized());
+	editorCamera.camFrustrum.SetWorldMatrix(mat.Float3x4Part());
 
-		float4x4 mat = editorCamera.camFrustrum.WorldMatrix();
-		mat.SetRotatePart(direction.Normalized());
-		editorCamera.camFrustrum.SetWorldMatrix(mat.Float3x4Part());
+	float3 newPosition = center + (editorCamera.camFrustrum.front * -distance);
+	editorCamera.camFrustrum.pos = newPosition;
 
-		editorCamera.camFrustrum.pos = center + (editorCamera.camFrustrum.front * -distance);
-		editorCamera.LookAt(center);
-	//}
-	//else 
-	//{
-	//	float3 ret = center + (editorCamera.camFrustrum.front * -distance);
-	//	ret.y = 0.25f;
-	//	editorCamera.camFrustrum.pos = ret;
-	//	editorCamera.LookAt(center);
-	//}
+	editorCamera.LookAt(center);
 }
 
 void ModuleCamera3D::FreeRotation(float dt)
@@ -253,6 +201,6 @@ void ModuleCamera3D::PanCamera(float dt)
 	if (dx != 0 || dy != 0) 
 	{
 		float3 movVector((editorCamera.camFrustrum.WorldRight() * dx) + (-editorCamera.camFrustrum.up * dy));
-		cameraMovement += movVector * dt;
+		//cameraMovement += movVector * dt;
 	}
 }

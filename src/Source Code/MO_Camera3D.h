@@ -30,15 +30,11 @@ private:
 
 public:
 	
-	//float3 X, Y, Z, Reference;
-
-	float3 Reference;
-
 	float mouseSensitivity;
 	float cameraSpeed;
 
-	C_Camera editorCamera;
+	float2 forwardLimits;
+	float currentZoom;
 
-private:
-	float3 cameraMovement;
+	C_Camera editorCamera;
 };

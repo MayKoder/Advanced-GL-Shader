@@ -7,10 +7,12 @@
 #include "MO_Editor.h"
 #include "MO_Scene.h"
 #include "MO_Input.h"
+#include"MO_ResourceManager.h"
 
 #include "RE_Texture.h"
 #include "mmgr/mmgr.h"
 #include "DE_FrameBuffer.h"
+
 
 #include"GameObject.h"
 
@@ -196,9 +198,32 @@ bool ModuleRenderer3D::Init()
 	skybox.CreateGLData();
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-	scatterPoints = MaykMath::ScatterPoints(0.5f, float2(60.0f, 30.0f), 30);
 
-	//plane.GenerateData();
+
+
+	scatterPoints = MaykMath::ScatterPoints(0.5f, float2(60.0f, 30.0f), 30);
+	GameObject* grass = App->moduleScene->CreateGameObject("Ground plane", App->moduleScene->root);
+	C_MeshRenderer* grassMesh = dynamic_cast<C_MeshRenderer*>(grass->AddComponent(Component::Type::MeshRenderer));
+
+	grassMesh->resShader = dynamic_cast<ResourceShader*>(App->moduleResources->RequestResource("assets/Shaders/grass.glsl"));
+	grassMesh->primitiveType = GL_POINTS;
+
+	//This is soooooo slow
+	for (auto it = scatterPoints.begin(); it != scatterPoints.end(); ++it)
+	{
+		grassMesh->vertices.push_back((it->x / (40.0f)) - 0.75f);
+		grassMesh->vertices.push_back(0.0f);
+		grassMesh->vertices.push_back((it->y / 30.0f) - 0.5f);
+	}
+
+	grassMesh->_mesh.SetType(GL_Object::RENDER_TYPE::RE_ARRAY);
+
+	grassMesh->_mesh.InitBuffers();
+	grassMesh->_mesh.Bind();
+
+	grassMesh->_mesh.CreateAndSetVBO(grassMesh->vertices.data(), grassMesh->vertices.size());
+	grassMesh->_mesh.SetVertexAttrib(0, 3, 6 * sizeof(float), 0 * sizeof(float), GL_FLOAT);
+	grassMesh->_mesh.UnBind();
 
 	return ret;
 }
@@ -227,18 +252,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	App->moduleCamera->editorCamera.StartDraw();
 	//
 
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glPointSize(5.0f);
-	glBegin(GL_POINTS);
-
-	for (size_t i = 0; i < scatterPoints.size(); i++)
-	{
-		glVertex3f((scatterPoints[i].x / (40.0f)) - 0.75f, 0.0f, (scatterPoints[i].y / 30.0f)-0.5f);
-	}
-
-	glEnd();
-	glPointSize(1.0f);
-	glColor3f(1.0f, 1.0f, 1.0f);
 
 	//Uint32 start = SDL_GetTicks();
 	//TODO: This should not be here
@@ -248,7 +261,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		{
 			//float distance = App->moduleCamera->editorCamera.camFrustrum.pos.DistanceSq(renderQueue[i]->globalOBB.pos);
 			//renderQueueMap.emplace(distance, renderQueue[i]);
-			renderQueue[i]->RenderMesh(false, defaultShader);
+			renderQueue[i]->RenderMesh(false, (renderQueue[i]->resShader != nullptr) ? renderQueue[i]->resShader : defaultShader);
 		}
 
 		//(wireframe) ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

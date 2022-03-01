@@ -12,7 +12,6 @@
 
 #include"RE_Texture.h"
 #include"RE_Shader.h"
-#include"RE_Material.h"
 
 #include"DEJsonSupport.h"
 #include"MO_Window.h"
@@ -69,7 +68,7 @@ Resource* M_ResourceManager::RequestResource(const char* uid)
 	{
 		Resource* ret = nullptr;
 
-		static_assert(static_cast<int>(Resource::Type::UNKNOWN) == 3, "Update all switches with new type");
+		static_assert(static_cast<int>(Resource::Type::UNKNOWN) == 2, "Update all switches with new type");
 
 		//Save check
 		if (FileSystem::Exists(uid))
@@ -79,7 +78,6 @@ Resource* M_ResourceManager::RequestResource(const char* uid)
 			{
 				case Resource::Type::TEXTURE: ret = (Resource*) new ResourceTexture(std::string(uid)); break;
 				case Resource::Type::SHADER: ret = dynamic_cast<Resource*>(new ResourceShader(std::string(uid))); break;
-				case Resource::Type::MATERIAL: ret = dynamic_cast<Resource*>(new ResourceMaterial(std::string(uid))); break;
 			}
 
 			if (ret != nullptr)
@@ -133,12 +131,11 @@ Resource* M_ResourceManager::CreateNewResource(std::string& assetsFile, Resource
 {
 	Resource* ret = nullptr;
 
-	static_assert(static_cast<int>(Resource::Type::UNKNOWN) == 3, "Update all switches with new type");
+	static_assert(static_cast<int>(Resource::Type::UNKNOWN) == 2, "Update all switches with new type");
 	switch (type) 
 	{
 		case Resource::Type::TEXTURE: ret = (Resource*) new ResourceTexture(assetsFile); break;
 		case Resource::Type::SHADER: ret = (Resource*) new ResourceShader(assetsFile); break;
-		case Resource::Type::MATERIAL: ret = (Resource*) new ResourceMaterial(assetsFile); break;
 	}
 
 	if (ret != nullptr)
@@ -155,13 +152,12 @@ Resource* M_ResourceManager::LoadFromLibrary(std::string& libraryFile, Resource:
 {
 	Resource* ret = nullptr;
 
-	static_assert(static_cast<int>(Resource::Type::UNKNOWN) == 3, "Update all switches with new type");
+	static_assert(static_cast<int>(Resource::Type::UNKNOWN) == 2, "Update all switches with new type");
 
 	switch (type)
 	{
 		case Resource::Type::TEXTURE: ret = (Resource*) new ResourceTexture(libraryFile); break;
 		case Resource::Type::SHADER: ret = (Resource*) new ResourceShader(libraryFile); break;
-		case Resource::Type::MATERIAL: ret = (Resource*) new ResourceMaterial(libraryFile); break;
 		//case Resource::Type::SCENE : ret = (Resource*) new ResourceScene(uid); break;
 	}
 
@@ -243,8 +239,6 @@ Resource::Type M_ResourceManager::GetTypeFromAssetExtension(const char* assetFil
 
 	if (ext == "dds")
 		return Resource::Type::TEXTURE;
-	if (ext == "mat")
-		return Resource::Type::MATERIAL;
 	if (ext == "glsl")
 		return Resource::Type::SHADER;
 

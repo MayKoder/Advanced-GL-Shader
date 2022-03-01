@@ -3,12 +3,10 @@
 #include "Application.h"
 #include "MO_Renderer3D.h"
 #include"MO_ResourceManager.h"
-#include"RE_Material.h"
 #include"RE_Shader.h"
 #include "IM_FileSystem.h"
 
 #include "GameObject.h"
-#include "CO_Material.h"
 #include "CO_Transform.h"
 #include"CO_Camera.h"
 
@@ -21,7 +19,8 @@
 #include"MathGeoLib/include/Geometry/Plane.h"
 
 C_MeshRenderer::C_MeshRenderer(GameObject* _gm) : Component(_gm),
-faceNormals(false), vertexNormals(false), showAABB(false), showOBB(false)
+faceNormals(false), vertexNormals(false), showAABB(false), showOBB(false), resShader(nullptr),
+primitiveType(GL_TRIANGLES)
 {
 	name = "Mesh Renderer";
 	alternColor = float3::one;
@@ -33,6 +32,10 @@ C_MeshRenderer::~C_MeshRenderer()
 	vertices.clear();
 
 	_mesh.UnloadBuffers();
+
+	if (resShader != nullptr) {
+		EngineExternal->moduleResources->UnloadResource(resShader->GetUID());
+	}
 }
 
 void C_MeshRenderer::Update()
@@ -104,7 +107,25 @@ void C_MeshRenderer::RenderMesh(bool rTex, ResourceShader* shader)
 
 void C_MeshRenderer::OGL_GPU_Render()
 {
-	_mesh.RenderAsIndices(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT);
+	switch (_mesh.GetType())
+	{
+
+	case GL_Object::RENDER_TYPE::RE_ARRAY:
+		_mesh.RenderAsArray(primitiveType, 0, this->vertices.size() / 3);
+		break;
+
+	case GL_Object::RENDER_TYPE::RE_INDICES:
+		_mesh.RenderAsIndices(primitiveType, this->indices.size(), GL_UNSIGNED_INT);
+		break;
+
+	case GL_Object::RENDER_TYPE::RE_INSTANCING:
+		LOG("That -1 in the method means we don't have any data in this class");
+		_mesh.RenderAsInstancing(primitiveType, 0, this->indices.size(), -1);
+		break;
+
+	default:
+		break;
+	}
 }
 
 #ifndef STANDALONE

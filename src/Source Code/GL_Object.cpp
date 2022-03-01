@@ -1,7 +1,7 @@
 #include "GL_Object.h"
 #include <algorithm>
 
-GL_Object::GL_Object(RENDER_TYPE _type) : resShader(nullptr), type(_type), VAO(0),
+GL_Object::GL_Object(RENDER_TYPE _type) : type(_type), VAO(0),
 EBO(0), usingVAO(false), lastElementSize(0)
 {
 }

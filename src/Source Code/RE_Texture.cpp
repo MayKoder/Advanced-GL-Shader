@@ -6,7 +6,6 @@
 
 ResourceTexture::ResourceTexture(std::string& _uid) : Resource(_uid, Resource::Type::TEXTURE), textureID(0), tWidth(0), tHeight(0)
 {
-	color = White;
 }
 
 ResourceTexture::~ResourceTexture()

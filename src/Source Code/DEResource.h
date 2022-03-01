@@ -9,7 +9,6 @@ public:
 	enum class Type {
 		TEXTURE,
 		SHADER,
-		MATERIAL,
 		UNKNOWN
 	};
 
