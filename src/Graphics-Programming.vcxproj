@@ -178,6 +178,7 @@
     <ClInclude Include="Source Code\Audio.h" />
     <ClInclude Include="Source Code\Camera.h" />
     <ClInclude Include="Source Code\Display.h" />
+    <ClInclude Include="Source Code\Dissolve.h" />
     <ClInclude Include="Source Code\External Libraries\DevIL\include\devil_cpp_wrapper.hpp" />
     <ClInclude Include="Source Code\External Libraries\DevIL\include\devil_internal_exports.h" />
     <ClInclude Include="Source Code\External Libraries\DevIL\include\il.h" />

@@ -49,7 +49,7 @@ private:
 	Skybox skybox;
 
 	float counter;
-	unsigned int whistle;
-	unsigned int backGroundMusic;
+	//unsigned int whistle;
+	//unsigned int backGroundMusic;
 };
 

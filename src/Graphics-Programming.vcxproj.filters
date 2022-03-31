@@ -303,6 +303,9 @@
     <ClInclude Include="Source Code\OpenGL.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="Source Code\Dissolve.h">
+      <Filter>Sources\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source Code\External Libraries\MathGeoLib\include\Time\Clock.cpp">

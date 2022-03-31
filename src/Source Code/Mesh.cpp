@@ -59,7 +59,6 @@ void Mesh::loadModel(const std::string& filename)
 {
 	IndexedModel model = OBJModel(filename).ToIndexedModel();
 	initModel(model);
-	Sphere meshSphere();
 }
 
 Mesh::~Mesh()
@@ -76,10 +75,3 @@ void Mesh::draw()
 
 	glBindVertexArray(0);
 }
-
-void Mesh::updateSphereData(glm::vec3 pos, float radius)
-{
-	meshSphere.SetPos(pos);
-	meshSphere.SetRadius(radius);
-}
-

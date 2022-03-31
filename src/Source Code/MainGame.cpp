@@ -3,9 +3,6 @@
 #include <iostream>
 #include <string>
 
-
-Transform transform;
-
 MainGame::MainGame() : counter(0.0f), texture(nullptr)
 {
 	_gameState = GameState::PLAY;
@@ -127,7 +124,7 @@ void MainGame::linkGeometryShader()
 
 void MainGame::linkReflection()
 {
-	reflectionShader.setMat4("model", transform.GetModel());
+	reflectionShader.setMat4("model", reflectionMesh.transform.GetModel());
 	reflectionShader.setMat4("view", myCamera.getView());
 	reflectionShader.setMat4("projection", myCamera.getProjection());
 	reflectionShader.setVec3("cameraPos", myCamera.getPos());
@@ -142,18 +139,17 @@ void MainGame::drawGame()
 
 	linkGeometryShader();
 	texture->Bind(0);
-	geoShader.Update(transform, myCamera);
-	transform.SetPos(glm::vec3(-2.0, 0.0, 0.0));
-	transform.SetRot(glm::vec3(0.0, counter * 5, 0.0));
-	transform.SetScale(glm::vec3(0.6, 0.6, 0.6));
+	geoMesh.transform.SetPos(glm::vec3(-2.0, 0.0, 0.0));
+	geoMesh.transform.SetRot(glm::vec3(0.0, counter * 5, 0.0));
+	geoMesh.transform.SetScale(glm::vec3(0.6, 0.6, 0.6));
+	geoShader.Update(geoMesh.transform, myCamera);
 	geoMesh.draw();
 
 
 	reflectionShader.Bind();
+	reflectionMesh.transform.SetPos(glm::vec3(2.0, 0.0, 0.0));
+	reflectionMesh.transform.SetScale(glm::vec3(0.6, 0.6, 0.6));
 	linkReflection();
-	transform.SetPos(glm::vec3(2.0, 0.0, 0.0));
-	transform.SetRot(glm::vec3(0.0, counter * 5, 0.0));
-	transform.SetScale(glm::vec3(0.6, 0.6, 0.6));
 	reflectionMesh.draw();
 
 	counter += 0.008f;

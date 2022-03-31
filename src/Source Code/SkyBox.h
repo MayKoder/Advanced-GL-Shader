@@ -5,8 +5,9 @@
 #include"Camera.h"
 #include"Shader.h"
 #include"stb_image.h"
+#include"Mesh.h"
 
-class Skybox
+class Skybox : public Mesh
 {
 public:
 	void init(std::vector<std::string> faces);
