@@ -1,5 +1,13 @@
 #include "Skybox.h"
 
+Skybox::Skybox() : Mesh(), skyboxVAO(0), skyboxVBO(0), textureID(0)
+{
+}
+
+Skybox::~Skybox()
+{
+}
+
 void Skybox::init(std::vector<std::string> faces) {
 	float skyboxVertices[] = {
 		// positions          
@@ -98,5 +106,6 @@ void Skybox::draw(Camera* camera) {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
+	//glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	glDepthFunc(GL_LESS);
 }

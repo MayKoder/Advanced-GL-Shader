@@ -175,7 +175,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source Code\Audio.h" />
     <ClInclude Include="Source Code\Camera.h" />
     <ClInclude Include="Source Code\Display.h" />
     <ClInclude Include="Source Code\Dissolve.h" />
@@ -264,7 +263,6 @@
     <ClInclude Include="Source Code\transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source Code\Audio.cpp" />
     <ClCompile Include="Source Code\Display.cpp" />
     <ClCompile Include="Source Code\External Libraries\MathGeoLib\include\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="Source Code\External Libraries\MathGeoLib\include\Geometry\AABB.cpp" />

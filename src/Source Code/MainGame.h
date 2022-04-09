@@ -6,7 +6,6 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "transform.h"
-#include "Audio.h"
 #include"SkyBox.h"
 
 enum class GameState{PLAY, EXIT};
@@ -27,8 +26,8 @@ private:
 	void drawGame();
 
 	void linkReflection();
-
 	void linkGeometryShader();
+	void linkDissolveShader();
 
 	bool collision(glm::vec3 m1Pos, float m1Rad, glm::vec3 m2Pos, float m2Rad);
 	//void playAudio(unsigned int Source, glm::vec3 pos);
@@ -38,13 +37,17 @@ private:
 
 	Texture* texture;
 
+	Shader geoShader;
 	Mesh geoMesh;
+
+	Shader reflectionShader;
 	Mesh reflectionMesh;
+	
+	Shader dissolveShader;
+	Mesh dissolveMesh;
 
 	Camera myCamera;
 
-	Shader geoShader;
-	Shader reflectionShader;
 
 	Skybox skybox;
 

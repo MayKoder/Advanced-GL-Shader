@@ -1,7 +1,9 @@
 #include "Shader.h"
 
-Shader::Shader()
+Shader::Shader() : shaderID(0)
 {
+	memset(shaders, 0, sizeof(shaders));
+	memset(uniforms, 0, sizeof(uniforms));
 }
 
 void Shader::init(const std::string& glslPath)

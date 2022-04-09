@@ -38,6 +38,10 @@ public:
 		return glm::lookAt(pos, pos + forward, up);
 	}
 
+	inline glm::vec3 getForward() {
+		return forward;
+	}
+
 	//void MoveForward(float amt)
 	//{
 	//	pos += forward * amt;
@@ -56,15 +60,15 @@ public:
 	//	up = glm::normalize(glm::cross(forward, right));
 	//}
 
-	//void RotateY(float angle)
-	//{
-	//	static const glm::vec3 UP(0.0f, 1.0f, 0.0f);
+	void RotateY(float angle)
+	{
+		static const glm::vec3 UP(0.0f, 1.0f, 0.0f);
 
-	//	glm::mat4 rotation = glm::rotate(angle, UP);
+		glm::mat4 rotation = glm::rotate(angle, UP);
 
-	//	forward = glm::vec3(glm::normalize(rotation * glm::vec4(forward, 0.0)));
-	//	up = glm::vec3(glm::normalize(rotation * glm::vec4(up, 0.0)));
-	//}
+		forward = glm::vec3(glm::normalize(rotation * glm::vec4(forward, 0.0)));
+		up = glm::vec3(glm::normalize(rotation * glm::vec4(up, 0.0)));
+	}
 
 protected:
 private:

@@ -50,9 +50,11 @@ void Mesh::initModel(const IndexedModel& model)
 	glBindVertexArray(0); // unbind our VAO
 }
 
-Mesh::Mesh()
+Mesh::Mesh() : vertexArrayObject(0)
 {
 	drawCount = NULL;
+	memset(vertexArrayBuffers, 0, sizeof(vertexArrayBuffers));
+
 }
 
 void Mesh::loadModel(const std::string& filename)

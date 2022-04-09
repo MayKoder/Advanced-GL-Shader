@@ -25,17 +25,22 @@ void MainGame::run()
 void MainGame::initSystems()
 {
 	_gameDisplay.initDisplay(); 
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND);
 	//whistle = audioDevice.loadSound("..\\res\\bang.wav");
 	//backGroundMusic = audioDevice.loadSound("..\\res\\background.wav");
 	
 	geoMesh.loadModel("assets/monkey3.obj");
-	reflectionMesh.loadModel("assets/sphere.obj");
-
-
 	geoShader.init("assets/Shaders/geoShder.glsl");
+
+	reflectionMesh.loadModel("assets/sphere.obj");
 	reflectionShader.init("assets/Shaders/reflectionShader.glsl");
 
-	myCamera.initCamera(glm::vec3(0, 0, -2), 90.0f, (float)_gameDisplay.getWidth()/_gameDisplay.getHeight(), 0.01f, 1000.0f);
+	dissolveMesh.loadModel("assets/sphere.obj");
+	dissolveShader.init("assets/Shaders/dissolve.glsl");
+
+	myCamera.initCamera(glm::vec3(0, 0, -5), 1.0471975512f, (float)_gameDisplay.getWidth()/_gameDisplay.getHeight(), 0.01f, 1000.0f);
 
 	counter = 0.0f;
 
@@ -122,6 +127,20 @@ void MainGame::linkGeometryShader()
 	geoShader.setFloat("time", counter);
 }
 
+void MainGame::linkDissolveShader()
+{
+	dissolveShader.setMat4("model", dissolveMesh.transform.GetModel());
+	dissolveShader.setMat4("view", myCamera.getView());
+	dissolveShader.setMat4("projection", myCamera.getProjection());
+	dissolveShader.setFloat("time", counter);
+	dissolveShader.setVec3("lightDir", glm::vec3(0.5f, 0.5f, -0.5f));
+
+
+	//dissolveShader.setVec3("inverseView", -myCamera.getForward());
+	//dissolveShader.setVec3("cameraPos", myCamera.getPos());
+	//dissolveShader.setVec2("u_resolution", glm::vec2(_gameDisplay.getWidth(), _gameDisplay.getHeight()));
+}
+
 void MainGame::linkReflection()
 {
 	reflectionShader.setMat4("model", reflectionMesh.transform.GetModel());
@@ -132,31 +151,42 @@ void MainGame::linkReflection()
 
 void MainGame::drawGame()
 {
+	//myCamera.RotateY(0.01f);
 	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f); //sets our background colour
 	
 
 	geoShader.Bind();
-
-	linkGeometryShader();
 	texture->Bind(0);
-	geoMesh.transform.SetPos(glm::vec3(-2.0, 0.0, 0.0));
+	geoMesh.transform.SetPos(glm::vec3(2.0, 0.0, 0.0));
 	geoMesh.transform.SetRot(glm::vec3(0.0, counter * 5, 0.0));
 	geoMesh.transform.SetScale(glm::vec3(0.6, 0.6, 0.6));
 	geoShader.Update(geoMesh.transform, myCamera);
+	linkGeometryShader();
 	geoMesh.draw();
 
 
 	reflectionShader.Bind();
-	reflectionMesh.transform.SetPos(glm::vec3(2.0, 0.0, 0.0));
+	reflectionMesh.transform.SetPos(glm::vec3(-2.0, 0.0, 0.0));
 	reflectionMesh.transform.SetScale(glm::vec3(0.6, 0.6, 0.6));
 	linkReflection();
 	reflectionMesh.draw();
 
-	counter += 0.008f;
 	skybox.draw(&myCamera);
+
+	glDisable(GL_CULL_FACE);
+	dissolveShader.Bind();
+	texture->Bind(0);
+	dissolveMesh.transform.SetPos(glm::vec3(0.0, 0.0, 0.0));
+	//dissolveMesh.transform.SetRot(glm::vec3(0.0, counter * 5, 0.0));
+	dissolveMesh.transform.SetScale(glm::vec3(0.6, 0.6, 0.6));
+	linkDissolveShader();
+	dissolveMesh.draw();
+	//glEnable(GL_CULL_FACE);
+
+	counter += 0.008f;
 				
-	glEnableClientState(GL_COLOR_ARRAY); 
-	glEnd();
+	//glEnableClientState(GL_COLOR_ARRAY); 
+	//glEnd();
 
 	_gameDisplay.swapBuffer();
 } 

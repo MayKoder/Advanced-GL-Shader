@@ -264,9 +264,6 @@
     <ClInclude Include="Source Code\External Libraries\PugiXML\pugixml.hpp">
       <Filter>Externals\PugiXML</Filter>
     </ClInclude>
-    <ClInclude Include="Source Code\Audio.h">
-      <Filter>Sources\Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Source Code\Camera.h">
       <Filter>Sources\Headers</Filter>
     </ClInclude>
@@ -412,9 +409,6 @@
     </ClCompile>
     <ClCompile Include="Source Code\External Libraries\PugiXML\pugixml.cpp">
       <Filter>Externals\PugiXML</Filter>
-    </ClCompile>
-    <ClCompile Include="Source Code\Audio.cpp">
-      <Filter>Sources\Class</Filter>
     </ClCompile>
     <ClCompile Include="Source Code\Display.cpp">
       <Filter>Sources\Class</Filter>

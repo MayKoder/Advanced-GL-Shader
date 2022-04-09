@@ -9,7 +9,11 @@
 
 class Skybox : public Mesh
 {
+
 public:
+	Skybox();
+	~Skybox();
+
 	void init(std::vector<std::string> faces);
 	void draw(Camera* camera);
 
