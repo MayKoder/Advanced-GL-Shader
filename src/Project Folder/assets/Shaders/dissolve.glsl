@@ -44,19 +44,12 @@ float noise (in vec2 st) {
     vec2 i = floor(st);
     vec2 f = fract(st);
 
-    // Four corners in 2D of a tile
     float a = random(i);
     float b = random(i + vec2(1.0, 0.0));
     float c = random(i + vec2(0.0, 1.0));
     float d = random(i + vec2(1.0, 1.0));
 
-    // Smooth Interpolation
-
-    // Cubic Hermine Curve.  Same as SmoothStep()
-    vec2 u = f*f*(3.0-2.0*f);
-    // u = smoothstep(0.,1.,f);
-
-    // Mix 4 coorners percentages
+    vec2 u = smoothstep(0.,1.,f);
     return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) +(d - b) * u.x * u.y;
 }
 
@@ -75,21 +68,17 @@ void main()
         st.y = 1.0-st.y;
     }
 
-    // Scale the coordinate system to see
-    // some noise in action
     vec2 pos = vec2(st*20.5);
 
-    // Use the noise function
     float n = noise(pos);
 	for(int i = 0; i < 2; i++)
     {
     	n = noise(vec2(n, n));
     }
 
-    //float result = 0.0;
     vec3 finalColor = vec3(1.0, 0.6, 0.1);
     vec3 midColor = vec3(1.0, 0.0, 0.0);
-    //float range = 0.1;
+
     float finalAlpha = 1.0-((1.0-n)-timeIter);
     for(float i = 0.0; i <= 1.0; i+= 0.25){
         if(finalAlpha <= i){
@@ -99,13 +88,7 @@ void main()
     }
 
     float intensity = dot(lightDir, Normal);
-    //for(float i = 0.25; i <= 1.0; i+=0.25)
-    //{
-	//    if (intensity < i){
-	//	    finalColor *= i;
-    //        break;
-    //    }
-    //}
+
 
     if (intensity > 0.4)
 		finalColor *= 1.0;
